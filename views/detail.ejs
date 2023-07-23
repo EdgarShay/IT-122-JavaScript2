@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Detail</title>
+  <link rel="stylesheet" type="text/css" href="/styles.css">
+</head>
+<body>
+  <h1>Item Details</h1>
+  <% if (item) { %>
+    <h2><%= item.name %></h2>
+    <p>Model: <%= item.model %></p>
+    <p>Color: <%= item.color %></p>
+    <p>Price: <%= item.price %></p>
+  <% } else { %>
+    <p>Item not found.</p>
+  <% } %>
+  <a href="/">Back to Home</a>
+</body>
+</html>

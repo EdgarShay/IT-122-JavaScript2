@@ -1,0 +1,23 @@
+/* Example CSS code */
+
+/* Styles for the body element */
+body {
+    background-color: lightblue;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Styles for the h1 element */
+  h1, h2 {
+    color: #333;
+  }
+  
+  /* Styles for the links */
+  a {
+    color: blue;
+    text-decoration: none;
+  }
+  
+
+  a:hover {
+    text-decoration: underline;
+  }

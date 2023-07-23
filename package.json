@@ -1,0 +1,22 @@
+{
+  "name": "week1",
+  "version": "1.0.0",
+  "description": "Github IT Javascript-122-2 Projects ",
+  "main": "index.js",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EdgarShay/IT-122-JavaScript2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Edgar",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "mongodb": "^5.7.0",
+    "mongoose": "^7.3.4"
+  }
+}
