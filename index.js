@@ -42,6 +42,8 @@ app.get('/api/cars/:id', (req,res) => {
 });
 
 
+// Delete
+
 app.get('/api/cars/delete/:id', (req,res) => {
   Cars.deleteOne({ id:req.params.id }).lean()
       .then((cars) => {
@@ -53,39 +55,49 @@ app.get('/api/cars/delete/:id', (req,res) => {
 });
 
 
-app.get('/api/cars/add/:id', (req,res) => {
-  Cars.addOne({ id:req.params.id }).lean()
+// app.post('/api/cars/add', (req,res, next) => {
+//   // find & update existing item, or add new 
+// Cars.updateOne({ id: req.body.id}, req.body, {upsert:true}, (err, result) => {
+//           if (err) return next(err);
+//           res.json({updated: result.nModified, id: req.body.id});
+//       });
+
+// });
+
+
+//Update
+app.post('/api/detail', (req,res, next) => {
+  Cars.updateOne({ model: req.body.model}, req.body, {upsert: true}).lean()
+  .then((result) => {
+      res.json(result)
+  })
+  .catch(err = next(err))
+});
+
+
+
+
+
+
+
+// // Get all items as JSON data
+// app.get('/api/items', (req, res) => {
+//   const data = getAll();
+//   res.json(data);
+// });
+
+//Get all items
+app.get('/api/items', (req, res, next) => {
+    console.log(req.query);
+    Cars.find({}).lean()
       .then((cars) => {
-         res.json(cars);
+        // respond to browser only after db query completes
+        res.json(cars);
       })
-      .catch(err => {
-          res.status(500).send('Database Error occurred');
-      });
-});
+      .catch(err => next(err))
+  });
 
 
-app.get('/api/cars/add/update/:id', (req,res) => {
-  Cars.updateOne({ id:req.params.id }).lean()
-      .then((cars) => {
-         res.json(cars);
-      })
-      .catch(err => {
-          res.status(500).send('Database Error occurred');
-      });
-});
-
-
-
-
-
-
-
-
-// Get all items as JSON data
-app.get('/api/items', (req, res) => {
-  const data = getAll();
-  res.json(data);
-});
 
 // Get a single item as JSON data
 app.get('/api/items/:id', (req, res) => {
