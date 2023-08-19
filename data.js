@@ -22,7 +22,7 @@ const items = [
     },
     {
       id: 4,
-      carModel: 'Tesla Model S',
+      carModel: 'Tesla Model',
       color: 'Blue',
       price: 70000,
       year: 2023
@@ -36,11 +36,42 @@ const items = [
     }
   ];
   
-  export function getAll() {
+
+  export const updateItem = (item) => {
+    const { id, name, description, price } = item;
+    const index = data.findIndex((item) => item.id === id);
+  
+    if (index !== -1) {
+
+    // If the item exists, update its properties
+    data[index] = {
+    id,
+    name,
+    description,
+    price,
+    };
+      return true; // Return true for successful update
+    }
+  
+    return false; // Return false if the item was not found
+  }
+
+
+  export const addItem = () => {
+    data.push(items);
     return items;
   }
   
-  export function getItem(key) {
+  export const deleteItem = () => {
+    return true;
+  }
+
+
+  export const getAll = () => {
+    return items;
+  }
+  
+  export const getItem = (key) => {
     return items.find(item => item.id === key);
   }
 
