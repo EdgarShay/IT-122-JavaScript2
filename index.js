@@ -21,14 +21,38 @@ app.use('/api', cors()); // set Access-Control-Allow-Origin header for api route
 //   next();
 // });
 
+// Passing for homework 5
+// app.get('/', (req, res, next) => {
+//   console.log(req.query);
+//   Car.find({}).lean()
+//     .then((cars) => {
+//     // pass items data array to home-page template 
+// res.render('home', {items: JSON.stringify(cars)});
+//     })
+// });
+
+
+
+// app.get('/api/cars', (req,res) => {
+//   Cars.find({}).lean()
+//     .then((cars) => {
+//       res.json(cars);})
+//     .catch(err =>  {
+//       res.status(500).send('Database Error occurred');
+//     })
+// });
+
 app.get('/api/cars', (req,res) => {
   Cars.find({}).lean()
     .then((cars) => {
-      res.json(cars);})
-    .catch(err =>  {
-      res.status(500).send('Database Error occurred');
-    })
+      // pass items data array to home-page template 
+res.render('home', {items: JSON.stringify(cars)});
+})
 });
+
+
+
+
 
 
 app.get('/api/cars/:id', (req,res) => {
@@ -73,11 +97,6 @@ app.post('/api/detail', (req,res, next) => {
   })
   .catch(err = next(err))
 });
-
-
-
-
-
 
 
 // // Get all items as JSON data
