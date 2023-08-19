@@ -6,7 +6,7 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EdgarShay/IT-122-JavaScript2"
+    "url": "git+https://github.com/EdgarShay/IT-122-JavaScript2.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,6 +18,13 @@
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "mongodb": "^5.7.0",
-    "mongoose": "^7.3.4"
-  }
+    "mongoose": "^7.3.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "bugs": {
+    "url": "https://github.com/EdgarShay/IT-122-JavaScript2/issues"
+  },
+  "homepage": "https://github.com/EdgarShay/IT-122-JavaScript2#readme",
+  "keywords": []
 }

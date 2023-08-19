@@ -1,12 +1,50 @@
-<!-- <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
-
 <body>
-  <script type="module" src="index.js"></script>
-  
+    <h1>This is javascript two!!!.</h1>
 </body>
+</html>
 
-</html> -->
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title>
+        
+            Home Page
+        </title>
+        <link rel="stylesheet" href="./css/main.css">
+    </head>
+    <body>
+        <h1> Home Page </h1>
+
+        <h2> Cars </h2>
+        <% cars.forEach(function(car) { %>
+            
+            <li><a href="detail?model=<%= car.model %>"><%= car.model %></a></li>
+          <% }); %>
+    
+    
+    </body>
+</html>
+
+
+<!DOCTYPE html>
+<html>
+     <body>
+        <a href="/">Home</a>
+        <% if (result) { %>
+          <h2><%= result.model %> Details</h2>
+          <li>Make: <%= result.make %></li>
+          <li>Year: <%= result.year %></li>
+      <% } else { %>
+        <h2><%= (result) %> not found</h2>
+      <% } %>
+      
+    </body>
+</html>
