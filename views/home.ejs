@@ -1,17 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Home Page</title>
+  <meta charset="UTF-8" />
+  <title>React App</title>
   <link rel="stylesheet" type="text/css" href="/styles.css">
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+ <!-- Don't use this in production: -->
+ <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
 </head>
 <body>
-  <h1>Welcome to the Home Page Item</h1>
-  <ul>
-    <% items.forEach(item => { %>
-      <li>
-        <a href="/detail?id=<%= item.id %>"><%= item.carModel %></a>
-      </li>
-    <% }); %>
-  </ul>
+    <h2>Home Page</h2>
+  <div id="root"></div>
+    <script type="text/babel">
+
+
+// create variable with unescaped JS data from server
+let cars = <%- items %>;
+console.log(cars)
+     
+
+// define other components
+
+const Cars = (props) => {
+  console.log(props)
+  const listItems = props.cars.map(item =>
+  <li key={item._id}><a href={"/detail?model="+item.model}>{item.model}</a></li>
+  );
+
+  return (
+          <ul>{listItems}</ul>
+          )
+}
+    <h1>Home Page</h1>
+
+    ReactDom.render(
+      <Cars cars={cars}/>,
+      document.getElementById('root'));
+    
+
+  </script>
+  
 </body>
 </html>
