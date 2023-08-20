@@ -16,7 +16,6 @@
   <div id="root"></div>
     <script type="text/babel">
 
-
 // create variable with unescaped JS data from server
 let cars = <%- items %>;
 console.log(cars)
@@ -34,14 +33,76 @@ const Cars = (props) => {
           <ul>{listItems}</ul>
           )
 }
-    <h1>Home Page</h1>
-
-    ReactDom.render(
-      <Cars cars={cars}/>,
-      document.getElementById('root'));
+//     <h1>Home Page</h1>
+// ReactDom.render(
+//       <Cars cars={cars}/>,
+//       document.getElementById('root'));
     
+const Detail = (props) => {
+      return (
+        <div>
+        <h3>Car Details</h3>
+        { props.item &&
+         <div> 
+          <form>
 
-  </script>
+            <b>Model</b>: <input type="text" name="model" onChange={props.changeHandler} value={props.item.model || ''} />
+            <b>Price</b>:  <input type="text" name="price" onChange={props.changeHandler} value={props.item.Price  || ''} />
+            <b>Year</b>:  <input type="text" name="year" onChange={props.changeHandler} value={props.item.year || ''} />
+            </form>
+            <button name="clear" onClick= {props.clearbutton}>Clear</button></div>
+        }
+        </div>
+      )
+    }
   
+
+  //this is the parent component 
+   const CarApp = () => {
+
+    const [items, setItems] = React.useState(cars);
+    const [selectedItem, setSelectedItems] = React.useState();
+     // click handler event
+  const itemClicked = (e) => {
+      console.log('itemClicked')
+        console.log(e.target.innerText);
+        let found = cars.find((item) => {
+            return item.model === e.target.innerText })
+        setSelectedItems(found);
+       } 
+
+         // click handler event change
+  const itemChanged = (e) => {
+        let field = e.target.name;
+        let newItem = {...selectedItem};
+        newItem[field] =e.target.value;
+        setSelectedItem(newItem);
+       } 
+
+       const clearbutton = (e) => {
+      console.log('clearbutton')
+        console.log(e.target.innerText);
+        setSelectedItems();
+
+      }
+
+    
+    return (
+        <div> 
+            
+            <Cars cars={cars} clickHandler={itemClicked} />
+            <Detail item={selectedItem} changeHandler={itemClicked} clearbutton={clearbutton} />
+        </div>
+    );
+}
+  
+
+
+   const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+    root.render(<CarApp />);
+</script>
+
 </body>
 </html>
+  
