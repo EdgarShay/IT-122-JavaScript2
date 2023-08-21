@@ -57,6 +57,7 @@ const Detail = (props) => {
             <b>Price</b>:  <input type="text" name="price" onChange={props.changeHandler} value={props.item.Price  || ''} />
             <b>Year</b>:  <input type="text" name="year" onChange={props.changeHandler} value={props.item.year || ''} />
             </form>
+            
             <button name="save" onClick= {props.saveItem}>Save</button>
             <button name="clear" onClick= {props.clearbutton}>Clear</button>
             <button name="delete" onClick= {props.deleteItem}>Delete</button>
