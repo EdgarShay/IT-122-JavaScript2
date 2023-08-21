@@ -53,8 +53,6 @@ res.render('home', {items: JSON.stringify(cars)});
 
 
 
-
-
 app.get('/api/cars/:id', (req,res) => {
   Cars.findOne({ id:req.params.id }).lean()
       .then((cars) => {
