@@ -19,7 +19,7 @@
     <script type="text/babel">
 
 // create variable with unescaped JS data from server
-let cars = <%- items %>;
+let cars = <%- JSON.stringify(items) %>;
 console.log(cars)
      
 // define other components
@@ -28,7 +28,8 @@ const Cars = (props) => {
   console.log(props)
   const listItems = props.cars.map(item =>
   
-  <li key={item._id} id={item._id} onClick={props.clickHandler}>{item.carModel}</li>
+
+ <li key={item._id} id={item._id} onClick={props.clickHandler}>{item.carModel}</li>
   );
 
   return (
@@ -38,10 +39,10 @@ const Cars = (props) => {
 
 // Render the component
 
-//     <h1>Home Page</h1>
+// <h1>Home Page</h1>
 
 // ReactDom.render(
-//       <Cars cars={cars}/>,
+//        <Cars cars={cars}/>,
 //       document.getElementById('root'));
     
 const Detail = (props) => {
@@ -51,9 +52,10 @@ const Detail = (props) => {
         { props.item &&
          <div> 
           <form>
-
+            
+            <b>color</b>: <input type="text" name="color" onChange={props.changeHandler} value={props.item.color || ''} />
             <b>carModel</b>: <input type="text" name="carModel" onChange={props.changeHandler} value={props.item.carModel || ''} />
-            <b>Price</b>:  <input type="text" name="price" onChange={props.changeHandler} value={props.item.Price  || ''} />
+            <b>price</b>:  <input type="text" name="price" onChange={props.changeHandler} value={props.item.price  || ''} />
             <b>Year</b>:  <input type="text" name="year" onChange={props.changeHandler} value={props.item.year || ''} />
             </form>
 
@@ -71,19 +73,20 @@ const Detail = (props) => {
    const CarApp = () => {
 
     const [items, setItems] = React.useState(cars);
-    const [selectedItem, setSelectedItems] = React.useState();
+    const [selectedItem, setSelectedItem] = React.useState();
 
+  // part of the assignment 7
   //load data after component has rendered
   React.useEffect(() => {
-        // fetch data
-      const fetchData = async()=> {
+         // fetch data
+       const fetchData = async()=> {
       fetch('/api').then(res => res.json())
      .then((json) => {
          setItems(json)
       })
     }
-    fetchData()
-   }, []);   
+     fetchData()
+    }, []);   
 
 
      // click handler event
@@ -92,7 +95,7 @@ const Detail = (props) => {
         console.log(e.target.innerText);
         let found = cars.find((item) => {
             return item.carModel === e.target.innerText })
-        setSelectedItems(found);
+        setSelectedItem(found);
        } 
 
        const clearbutton = (e) => {
