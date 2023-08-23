@@ -7,12 +7,14 @@
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
+
  <!-- Don't use this in production: -->
  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
 </head>
 <body>
     <h2>Home Page</h2>
+
   <div id="root"></div>
     <script type="text/babel">
 
@@ -26,15 +28,20 @@ console.log(cars)
 const Cars = (props) => {
   console.log(props)
   const listItems = props.cars.map(item =>
-  <li key={item._id}><a href={"/detail?model="+item.model}>{item.model}</a></li>
+  
+  <li key={item._id} id={item._id} onClick={props.clickHandler}>{item.carModel}</li>
   );
 
-  
+
   return (
           <ul>{listItems}</ul>
           )
 }
+
+// Render the component
+
 //     <h1>Home Page</h1>
+
 // ReactDom.render(
 //       <Cars cars={cars}/>,
 //       document.getElementById('root'));
@@ -47,11 +54,15 @@ const Detail = (props) => {
          <div> 
           <form>
 
-            <b>Model</b>: <input type="text" name="model" onChange={props.changeHandler} value={props.item.model || ''} />
+            <b>carModel</b>: <input type="text" name="carModel" onChange={props.changeHandler} value={props.item.carModel || ''} />
             <b>Price</b>:  <input type="text" name="price" onChange={props.changeHandler} value={props.item.Price  || ''} />
             <b>Year</b>:  <input type="text" name="year" onChange={props.changeHandler} value={props.item.year || ''} />
             </form>
-            <button name="clear" onClick= {props.clearbutton}>Clear</button></div>
+
+            <button name="save" onClick= {props.saveItem}>Save</button>
+            <button name="clear" onClick= {props.clearbutton}>Clear</button>
+            <button name="delete" onClick= {props.deleteItem}>Delete</button>
+            </div>
         }
         </div>
       )
@@ -63,37 +74,104 @@ const Detail = (props) => {
 
     const [items, setItems] = React.useState(cars);
     const [selectedItem, setSelectedItems] = React.useState();
+
+  //load data after component has rendered
+  React.useEffect(() => {
+        // fetch data
+      const fetchData = async()=> {
+      fetch('/api').then(res => res.json())
+     .then((json) => {
+         setItems(json)
+      })
+    }
+    fetchData()
+   }, []);   
+
+
      // click handler event
   const itemClicked = (e) => {
       console.log('itemClicked')
         console.log(e.target.innerText);
         let found = cars.find((item) => {
-            return item.model === e.target.innerText })
+            return item.carModel === e.target.innerText })
         setSelectedItems(found);
-       } 
-
-         // click handler event change
-  const itemChanged = (e) => {
-        let field = e.target.name;
-        let newItem = {...selectedItem};
-        newItem[field] =e.target.value;
-        setSelectedItem(newItem);
        } 
 
        const clearbutton = (e) => {
       console.log('clearbutton')
         console.log(e.target.innerText);
-        setSelectedItems();
+        setSelectedItem();
 
       }
 
-    
+ 
+  
+      const saveItem = () => {
+        console.log('saveItem')
+    if (!selectedItem.carModel) {
+        return;
+    }
+        fetch("/api/detail", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(selectedItem)
+        })
+        .then(res => res.json())
+        .then((cars) => {
+        //if item has no _id, it wasn't previously saved in DB
+              if (!selectedItem._id) {
+                selectedItem._id = cars._id;
+               setSelectedItem(selectedItem);
+               //update items list
+               let newItems = [...items]
+               newItems.push(selectedItem);
+               setItems(newItems);
+
+            }
+        })
+       
+    }
+
+
+const deleteItem = () => {
+    console.log('should delete')
+    //delete item from DB
+        fetch(`/api/delete/${selectedItem._id}`) 
+           .then(res => res.json())
+           .then((cars) => {
+            //remove item from list
+            const newItems = items.filter((item) => {
+                return item._id !== selectedItem._id
+            });
+            setItems(newItems);
+            //clear form
+            setSelectedItem({});
+        })
+     }
+
+
+  // click handler event change
+  const itemChanged = (e) => {
+    console.log("itemChanged")
+        let field = e.target.name;
+        let newItem = {...selectedItem};
+        newItem[field] =e.target.value;
+        setSelectedItem(newItem);
+        items.find((item, index) => {
+            if (item._id === newItem._id) {
+                items[index] = newItem;
+                setItems([...items]);
+            }
+          })
+       }
+
 
     return (
         <div> 
             
-            <Cars cars={cars} clickHandler={itemClicked} />
-            <Detail item={selectedItem} changeHandler={itemClicked} clearbutton={clearbutton} />
+          <Cars cars={cars} clickHandler={itemClicked} />
+            <Detail item={selectedItem} changeHandler={itemChanged} clearbutton={clearbutton}
+            saveItem={saveItem} deleteItem={deleteItem} />
         </div>
     );
 }
@@ -107,5 +185,6 @@ const Detail = (props) => {
 </script>
 
 </body>
+
 </html>
   
