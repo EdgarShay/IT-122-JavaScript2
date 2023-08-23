@@ -22,7 +22,6 @@
 let cars = <%- items %>;
 console.log(cars)
      
-
 // define other components
 
 const Cars = (props) => {
@@ -31,7 +30,6 @@ const Cars = (props) => {
   
   <li key={item._id} id={item._id} onClick={props.clickHandler}>{item.carModel}</li>
   );
-
 
   return (
           <ul>{listItems}</ul>
